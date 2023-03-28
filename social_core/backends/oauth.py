@@ -1,4 +1,5 @@
 import six
+import os
 
 from requests_oauthlib import OAuth1
 from oauthlib.oauth1 import SIGNATURE_TYPE_AUTH_HEADER
@@ -94,7 +95,7 @@ class OAuthAuth(BaseAuth):
 
     def get_redirect_uri(self, state=None):
         """Build redirect with redirect_state parameter."""
-        uri = self.redirect_uri
+        uri = os.environ.get('GITHUB_REDIRECT', self.redirect_uri) #self.redirect_uri
         if self.REDIRECT_STATE and state:
             uri = url_add_parameters(uri, {'redirect_state': state})
         return uri
